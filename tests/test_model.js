@@ -3,23 +3,19 @@ import { Model } from '../lib/model.js';
 
 let expect = chai.expect;
 
-let id = '2d207fa6-b4c1-4a96-b15f-3b9c696e5f7e';
+let id = '6b95d0a7-c141-4324-9882-a64b6b6a65fc';
 
-describe('WebToken', () => {
-  it('can authenticate', async function() {
-    WebToken.url = 'http://localhost:8080/v1/authentication';
-    WebToken.attributes = {
-      username: 'admin',
-      password: 'admin'
-    };
-    expect(WebToken.data.token).to.have.lengthOf(0);
-    await WebToken.authenticate();
-    expect(WebToken.data.token).not.to.have.lengthOf(0);
-  });
-});
+WebToken.url = 'http://localhost:8080/v1/authentication';
+WebToken.attributes = {
+  username: 'admin',
+  password: 'admin'
+};
+WebToken.authenticate();
 
 describe('Model', () => {
+
   describe('cannot be constructed...', () => {
+
     it('without a host', (done) => {
       try {
         let model = new Model();
@@ -57,6 +53,7 @@ describe('Model', () => {
   });
 
   describe('can be constructed...', () => {
+
     it('with a host, uri and type', () => {
       let model = new Model({
         host: 'http://localhost:8080',
@@ -89,6 +86,7 @@ describe('Model', () => {
       });
       expect(model.attributes).to.deep.equal({ errors: [ ], _id: 'test' });
     });
+
   });
 
   it('can set jsonapi headers', () => {
@@ -133,7 +131,7 @@ describe('Model', () => {
     expect(model.uri).to.equal('http://localhost:8080/v1/test/test');
   });
 
-  it('can read load', async function() {
+  it('can load data', async function() {
     let user = new Model({
       host: 'http://localhost:8080',
       uri: 'v1',
@@ -174,6 +172,7 @@ describe('Model', () => {
     await user.save();
     expect(user.attributes.errors).to.have.lengthOf(0);
     expect(user.attributes.username).to.equal('abc');
+    await user.delete();
   });
 
   it('can delete data', async function() {
@@ -190,4 +189,5 @@ describe('Model', () => {
     await user.delete();
     expect(user.id).to.be.undefined;
   });
+
 });
