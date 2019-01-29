@@ -17,8 +17,6 @@ pids+=("$!")
 python -m http.server 8000 &
 pids+=("$!")
 
-cd lib
-
 livereload &
 pids+=("$!")
 
