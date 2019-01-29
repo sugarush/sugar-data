@@ -25,3 +25,5 @@ async def before_server_start(app, loop):
             'password': 'admin',
             'group': administrator.id
         })
+
+    print('Administrator ID: ' + user.id)
