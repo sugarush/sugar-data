@@ -3,6 +3,8 @@ import { Model } from '../lib/model.js';
 
 let expect = chai.expect;
 
+let id = '2d207fa6-b4c1-4a96-b15f-3b9c696e5f7e';
+
 describe('WebToken', () => {
   it('can authenticate', async function() {
     WebToken.url = 'http://localhost:8080/v1/authentication';
@@ -131,4 +133,61 @@ describe('Model', () => {
     expect(model.uri).to.equal('http://localhost:8080/v1/test/test');
   });
 
+  it('can read load', async function() {
+    let user = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id: id
+    });
+    await user.load();
+    expect(user.attributes.username).to.equal('admin');
+  });
+
+  it('can save new data', async function() {
+    let user = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id_attribute: 'id'
+    });
+    user.attributes.username = 'test';
+    user.attributes.password = 'test';
+    user.attributes.group = 'test';
+    await user.save();
+    expect(user.attributes.errors).to.have.lengthOf(0);
+    await user.delete();
+  });
+
+  it('can save existing data', async function() {
+    let user = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id_attribute: 'id'
+    });
+    user.attributes.username = 'test';
+    user.attributes.password = 'test';
+    user.attributes.group = 'test';
+    await user.save();
+    user.attributes.username = 'abc';
+    await user.save();
+    expect(user.attributes.errors).to.have.lengthOf(0);
+    expect(user.attributes.username).to.equal('abc');
+  });
+
+  it('can delete data', async function() {
+    let user = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id_attribute: 'id'
+    });
+    user.attributes.username = 'test';
+    user.attributes.password = 'test';
+    user.attributes.group = 'test';
+    await user.save();
+    await user.delete();
+    expect(user.id).to.be.undefined;
+  });
 });
