@@ -75,13 +75,23 @@ describe('Collection', () => {
     expect(collection.uri).to.equal('http://localhost:8080/v1/test');
   });
 
-  it('can find data', async function() {
+  it('can find all data', async function() {
     let collection = new Collection({
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users'
     });
     await collection.find();
+    expect(collection.attributes.items[0].username).to.equal('admin');
+  });
+
+  it('can query data', async function() {
+    let collection = new Collection({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users'
+    });
+    await collection.find({ 'username': 'admin' });
     expect(collection.attributes.items[0].username).to.equal('admin');
   });
 
