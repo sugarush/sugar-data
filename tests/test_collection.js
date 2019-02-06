@@ -1,5 +1,6 @@
 import WebToken from '../lib/webtoken.js';
 import { Collection } from '../lib/collection.js';
+import { Model } from '../lib/model.js';
 
 let expect = chai.expect;
 
@@ -92,8 +93,51 @@ describe('Collection', () => {
       type: 'users'
     });
     await collection.find({ query: { username: 'admin' } });
-    console.log(collection.attributes);
     expect(collection.attributes.items[0].username).to.equal('admin');
   });
 
+  it('can sort data', async function() {
+    let gamma = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id_attribute: '_id',
+      attributes: {
+        username: 'gamma',
+        password: 'gamma',
+        group: 'gamma'
+      }
+    });
+
+    await gamma.save();
+
+    let delta = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id_attribute: '_id',
+      attributes: {
+        username: 'delta',
+        password: 'delta',
+        group: 'delta'
+      }
+    });
+
+    await delta.save();
+
+    let collection = new Collection({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users'
+    });
+
+    await collection.find({ sort: [ 'username' ] });
+
+    expect(collection.attributes.items[0].username).to.equal('admin');
+    expect(collection.attributes.items[1].username).to.equal('delta');
+    expect(collection.attributes.items[2].username).to.equal('gamma');
+
+    await gamma.delete();
+    await delta.delete();
+  });
 });
