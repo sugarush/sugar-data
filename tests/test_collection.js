@@ -91,7 +91,8 @@ describe('Collection', () => {
       uri: 'v1',
       type: 'users'
     });
-    await collection.find({ 'username': 'admin' });
+    await collection.find({ query: { username: 'admin' } });
+    console.log(collection.attributes);
     expect(collection.attributes.items[0].username).to.equal('admin');
   });
 
