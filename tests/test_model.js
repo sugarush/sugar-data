@@ -134,7 +134,7 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: 'id'
+      id_attribute: '_id'
     });
     user.attributes.username = 'test';
     user.attributes.password = 'test';
@@ -149,7 +149,7 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: 'id'
+      id_attribute: '_id'
     });
     user.attributes.username = 'test';
     user.attributes.password = 'test';
@@ -167,7 +167,7 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: 'id',
+      id_attribute: '_id',
       attributes: {
         username: 'test',
         password: 'test',
@@ -179,7 +179,7 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: 'id',
+      id_attribute: '_id',
       id: user_alpha.id
     });
     await user_beta.load();
@@ -192,7 +192,7 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: 'id'
+      id_attribute: '_id'
     });
     user.attributes.username = 'test';
     user.attributes.password = 'test';
