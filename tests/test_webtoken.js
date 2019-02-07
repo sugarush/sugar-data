@@ -10,6 +10,6 @@ describe('WebToken', () => {
       password: 'admin'
     };
     await WebToken.authenticate();
-    expect(WebToken.data.token).not.to.have.lengthOf(0);
+    expect(WebToken.authentication.token).not.to.have.lengthOf(0);
   });
 });
