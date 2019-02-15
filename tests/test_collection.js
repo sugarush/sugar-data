@@ -140,4 +140,44 @@ describe('Collection', () => {
     await gamma.delete();
     await delta.delete();
   });
+
+  it('can paginate data', async function() {
+    let alpha = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id_attribute: '_id',
+      attributes: {
+        username: 'alpha',
+        password: 'alpha',
+        group: 'alpha'
+      }
+    });
+
+    await alpha.save();
+
+    let collection = new Collection({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users'
+    });
+
+    await collection.find({
+      sort: [ 'username' ],
+      page: { limit: 1, offset: 0 }
+    });
+
+    expect(collection.attributes.items[0].username).to.equal('admin');
+
+    await collection.find({
+      sort: [ 'username' ],
+      page: { limit: 1, offset: 1 }
+    });
+
+    expect(collection.attributes.items[0].username).to.equal('alpha');
+
+    expect(collection.attributes.total).to.equal(2);
+
+    await alpha.delete();
+  });
 });
