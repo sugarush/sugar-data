@@ -4,13 +4,6 @@ import { Model } from '../lib/model.js';
 
 let expect = chai.expect;
 
-WebToken.url = 'http://localhost:8080/v1/authentication';
-WebToken.attributes = {
-  username: 'admin',
-  password: 'admin'
-};
-WebToken.authenticate();
-
 describe('Collection', () => {
 
   describe('cannot be constructed...', () => {
@@ -83,7 +76,7 @@ describe('Collection', () => {
       type: 'users'
     });
     await collection.find();
-    expect(collection.attributes.items[0].username).to.equal('admin');
+    expect(collection.items[0].username).to.equal('admin');
   });
 
   it('can query data', async function() {
@@ -93,7 +86,7 @@ describe('Collection', () => {
       type: 'users'
     });
     await collection.find({ query: { username: 'admin' } });
-    expect(collection.attributes.items[0].username).to.equal('admin');
+    expect(collection.items[0].username).to.equal('admin');
   });
 
   it('can sort data', async function() {
@@ -133,9 +126,9 @@ describe('Collection', () => {
 
     await collection.find({ sort: [ 'username' ] });
 
-    expect(collection.attributes.items[0].username).to.equal('admin');
-    expect(collection.attributes.items[1].username).to.equal('delta');
-    expect(collection.attributes.items[2].username).to.equal('gamma');
+    expect(collection.items[0].username).to.equal('admin');
+    expect(collection.items[1].username).to.equal('delta');
+    expect(collection.items[2].username).to.equal('gamma');
 
     await gamma.delete();
     await delta.delete();
@@ -167,16 +160,16 @@ describe('Collection', () => {
       page: { limit: 1, offset: 0 }
     });
 
-    expect(collection.attributes.items[0].username).to.equal('admin');
+    expect(collection.items[0].username).to.equal('admin');
 
     await collection.find({
       sort: [ 'username' ],
       page: { limit: 1, offset: 1 }
     });
 
-    expect(collection.attributes.items[0].username).to.equal('alpha');
+    expect(collection.items[0].username).to.equal('alpha');
 
-    expect(collection.attributes.total).to.equal(2);
+    expect(collection.total).to.equal(2);
 
     await alpha.delete();
   });

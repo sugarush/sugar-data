@@ -3,13 +3,6 @@ import { Model } from '../lib/model.js';
 
 let expect = chai.expect;
 
-WebToken.url = 'http://localhost:8080/v1/authentication';
-WebToken.attributes = {
-  username: 'admin',
-  password: 'admin'
-};
-WebToken.authenticate();
-
 describe('Model', () => {
 
   describe('cannot be constructed...', () => {
@@ -72,7 +65,7 @@ describe('Model', () => {
           field: 'value'
         }
       });
-      expect(model.attributes).to.deep.equal({ errors: [ ], field: 'value' });
+      expect(model.attributes).to.deep.equal({ field: 'value' });
     });
 
     it('with an id', () => {
@@ -82,7 +75,7 @@ describe('Model', () => {
         type: 'test',
         id: 'test'
       });
-      expect(model.attributes).to.deep.equal({ errors: [ ], _id: 'test' });
+      expect(model.attributes).to.deep.equal({ _id: 'test' });
     });
 
   });
@@ -94,7 +87,7 @@ describe('Model', () => {
       uri: 'v1',
       type: 'test'
     });
-    let headers = model.headers();
+    let headers = model.headers;
     expect(headers['Accept']).to.be.equal(content_type);
     expect(headers['Content-Type']).to.be.equal(content_type);
   });
@@ -140,7 +133,7 @@ describe('Model', () => {
     user.attributes.password = 'test';
     user.attributes.group = 'test';
     await user.save();
-    expect(user.attributes.errors).to.have.lengthOf(0);
+    expect(user.errors).to.have.lengthOf(0);
     await user.delete();
   });
 
@@ -157,7 +150,7 @@ describe('Model', () => {
     await user.save();
     user.attributes.username = 'abc';
     await user.save();
-    expect(user.attributes.errors).to.have.lengthOf(0);
+    expect(user.errors).to.have.lengthOf(0);
     expect(user.attributes.username).to.equal('abc');
     await user.delete();
   });
