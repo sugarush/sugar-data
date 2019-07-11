@@ -75,21 +75,9 @@ describe('Model', () => {
         type: 'test',
         id: 'test'
       });
-      expect(model.attributes).to.deep.equal({ _id: 'test' });
+      expect(model.id).to.deep.equal('test');
     });
 
-  });
-
-  it('can set jsonapi headers', () => {
-    let content_type = 'application/vnd.api+json';
-    let model = new Model({
-      host: 'http://localhost:8080',
-      uri: 'v1',
-      type: 'test'
-    });
-    let headers = model.headers;
-    expect(headers['Accept']).to.be.equal(content_type);
-    expect(headers['Content-Type']).to.be.equal(content_type);
   });
 
   it('can set it\'s id', () => {
@@ -99,7 +87,7 @@ describe('Model', () => {
       type: 'test'
     });
     model.id = 'test';
-    expect(model.attributes[model._id_attribute]).to.equal('test');
+    expect(model.id).to.equal('test');
   });
 
   it('can get it\'s id', () => {
@@ -126,12 +114,11 @@ describe('Model', () => {
     let user = new Model({
       host: 'http://localhost:8080',
       uri: 'v1',
-      type: 'users',
-      id_attribute: '_id'
+      type: 'users'
     });
     user.attributes.username = 'test';
     user.attributes.password = 'test';
-    user.attributes.group = 'test';
+    user.attributes.groups = [ 'test' ];
     await user.save();
     expect(user.errors).to.have.lengthOf(0);
     await user.delete();
@@ -141,12 +128,11 @@ describe('Model', () => {
     let user = new Model({
       host: 'http://localhost:8080',
       uri: 'v1',
-      type: 'users',
-      id_attribute: '_id'
+      type: 'users'
     });
     user.attributes.username = 'test';
     user.attributes.password = 'test';
-    user.attributes.group = 'test';
+    user.attributes.groups = [ 'test' ];
     await user.save();
     user.attributes.username = 'abc';
     await user.save();
@@ -160,11 +146,10 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: '_id',
       attributes: {
         username: 'test',
         password: 'test',
-        group: 'test'
+        groups: [ 'test' ]
       }
     });
     await user_alpha.save();
@@ -172,7 +157,6 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: '_id',
       id: user_alpha.id
     });
     await user_beta.load();
@@ -185,14 +169,13 @@ describe('Model', () => {
       host: 'http://localhost:8080',
       uri: 'v1',
       type: 'users',
-      id_attribute: '_id'
     });
     user.attributes.username = 'test';
     user.attributes.password = 'test';
-    user.attributes.group = 'test';
+    user.attributes.groups = [ 'test' ];
     await user.save();
     await user.delete();
-    expect(user.id).to.be.undefined;
+    expect(user.id).to.be.null;
   });
 
 });

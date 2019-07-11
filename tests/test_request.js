@@ -13,7 +13,7 @@ describe('JSON API Request', () => {
 
   it('can specify query parameters', async function() {
     let json = await jsonapi(url, {
-      query: {
+      params: {
         'page[offset]': 1
       }
     });
@@ -29,7 +29,7 @@ describe('JSON API Request', () => {
           attributes: {
             username: 'test',
             password: 'test',
-            group: 'test'
+            groups: [ 'test' ]
           }
         }
       }
