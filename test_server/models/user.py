@@ -10,7 +10,11 @@ class User(MongoDBModel, JSONAPIMixin):
         'other': ['read']
     }
 
+    __set__ = {
+        'groups': ['administrator']
+    }
+
     username = Field(required=True)
     password = Field(required=True)
 
-    group = Field(required=True)
+    groups = Field(type=list)

@@ -3,7 +3,6 @@ from datetime import datetime
 from sugar_api import WebToken
 
 from models.user import User
-from models.group import Group
 
 
 WebToken.set_secret('secret')
@@ -12,7 +11,17 @@ WebToken.set_secret('secret')
 class Authentication(WebToken):
 
     @classmethod
-    async def payload(cls, username, password):
+    async def create(cls, attributes):
+        username = attributes.get('username')
+
+        if not username:
+            raise Exception('No username provided.')
+
+        password = attributes.get('password')
+
+        if not password:
+            raise Exception('No password provided.')
+
         user = await User.find_one({
             'username': username,
             'password': password
@@ -21,18 +30,36 @@ class Authentication(WebToken):
         if not user:
             raise Exception('Invalid username or password.')
 
-        group = await Group.find_by_id(user.group)
-
-        if not group:
-            raise Exception('User type not found.')
-
         return {
+            'exp': datetime.utcnow() + timedelta(minutes=5),
+            'nbf': datetime.utcnow(),
+            'iat': datetime.utcnow(),
             'data': {
                 'id': user.id,
-                'type': group.name,
-                'attributes': {
-                    'username': user.username,
-                    'timestamp': datetime.utcnow().timestamp()
-                }
+                'groups': user.groups
+            }
+        }
+
+    @classmethod
+    async def refresh(cls, token):
+        token_data = token.get('data')
+        token_id = token_data.get('id')
+        token_scope = token_data.get('scope', { })
+        token_attributes = token_data.get('attributes', { })
+
+        user = await User.find_by_id(token_id)
+
+        if not user:
+            raise Exception('User not found for token ID.')
+
+        return {
+            'exp': datetime.utcnow() + timedelta(minutes=5),
+            'nbf': datetime.utcnow(),
+            'iat': datetime.utcnow(),
+            'data': {
+                'id': token_id,
+                'groups': user.groups,
+                'scope': token_scope,
+                'attributes': token_attributes
             }
         }
