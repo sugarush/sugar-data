@@ -76,7 +76,7 @@ describe('Collection', () => {
       type: 'users'
     });
     await collection.find();
-    expect(collection.items[0].attributes.username).to.equal('admin');
+    expect(collection.models[0].attributes.username).to.equal('admin');
   });
 
   it('can query data', async function() {
@@ -86,7 +86,7 @@ describe('Collection', () => {
       type: 'users'
     });
     await collection.find({ query: { username: 'admin' } });
-    expect(collection.items[0].attributes.username).to.equal('admin');
+    expect(collection.models[0].attributes.username).to.equal('admin');
   });
 
   it('can sort data', async function() {
@@ -124,9 +124,9 @@ describe('Collection', () => {
 
     await collection.find({ sort: [ 'username' ] });
 
-    expect(collection.items[0].attributes.username).to.equal('admin');
-    expect(collection.items[1].attributes.username).to.equal('delta');
-    expect(collection.items[2].attributes.username).to.equal('gamma');
+    expect(collection.models[0].attributes.username).to.equal('admin');
+    expect(collection.models[1].attributes.username).to.equal('delta');
+    expect(collection.models[2].attributes.username).to.equal('gamma');
 
     await gamma.delete();
     await delta.delete();
@@ -157,14 +157,14 @@ describe('Collection', () => {
       page: { limit: 1, offset: 0 }
     });
 
-    expect(collection.items[0].attributes.username).to.equal('admin');
+    expect(collection.models[0].attributes.username).to.equal('admin');
 
     await collection.find({
       sort: [ 'username' ],
       page: { limit: 1, offset: 1 }
     });
 
-    expect(collection.items[0].attributes.username).to.equal('alpha');
+    expect(collection.models[0].attributes.username).to.equal('alpha');
 
     expect(collection.total).to.equal(2);
 
