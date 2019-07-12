@@ -43,6 +43,14 @@ describe('WebToken', () => {
     expect(WebToken.loggedIn).to.be.true;
   });
 
+  it('can refresh', async function() {
+    let url = 'http://localhost:8080/v1/authentication';
+    let token = WebToken.token;
+    await WebToken.refresh(url);
+    expect(WebToken.token).not.to.be.null;
+    expect(WebToken.token).not.to.equal(token);
+  });
+
   it('can deauthenticate', async function() {
     await WebToken.deauthenticate();
     expect(WebToken.token).to.be.null;
