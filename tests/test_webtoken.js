@@ -21,8 +21,8 @@ describe('WebToken', () => {
     expect(false).not.to.be.false;
   });
 
-  it('can be logged out', function() {
-    expect(WebToken.loggedIn).to.be.false;
+  it('can be unauthenticated', function() {
+    expect(WebToken.authenticated).to.be.false;
   });
 
   it('can authenticate', async function() {
@@ -39,8 +39,8 @@ describe('WebToken', () => {
     expect(WebToken.token).not.to.be.null;
   });
 
-  it('can be logged in', function() {
-    expect(WebToken.loggedIn).to.be.true;
+  it('can be authenticated', function() {
+    expect(WebToken.authenticated).to.be.true;
   });
 
   it('can refresh', async function() {
