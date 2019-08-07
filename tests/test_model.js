@@ -161,6 +161,32 @@ describe('Model', () => {
     });
     await user_beta.load();
     expect(user_beta.attributes.username).to.equal('test');
+    await user_alpha.delete();
+    await user_beta.delete();
+  });
+
+  it('can load data with specified fields', async function() {
+    let user_alpha = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      attributes: {
+        username: 'test',
+        password: 'test',
+        groups: [ 'test' ]
+      }
+    });
+    await user_alpha.save();
+    let user_beta = new Model({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users',
+      id: user_alpha.id
+    });
+    await user_beta.load({ fields: { username: 1 } });
+    expect(user_beta.attributes.username).to.equal('test');
+    expect(user_beta.attributes.password).to.be.undefined;
+    await user_alpha.delete();
     await user_beta.delete();
   });
 

@@ -89,6 +89,20 @@ describe('Collection', () => {
     expect(collection.models[0].attributes.username).to.equal('admin');
   });
 
+  it('can find data with specified fields', async function() {
+    let collection = new Collection({
+      host: 'http://localhost:8080',
+      uri: 'v1',
+      type: 'users'
+    });
+    await collection.find({
+      query: { username: 'admin' },
+      fields: { username: 1 }
+    });
+    expect(collection.models[0].attributes.username).to.equal('admin');
+    expect(collection.models[0].attributes.password).to.be.undefined;
+  });
+
   it('can sort data', async function() {
     let gamma = new Model({
       host: 'http://localhost:8080',
