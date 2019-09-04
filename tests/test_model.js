@@ -1,6 +1,8 @@
 import WebToken from '../lib/webtoken.js';
 import { Model } from '../lib/model.js';
 
+import { HOST } from "./settings.js";
+
 let expect = chai.expect;
 
 describe('Model', () => {
@@ -20,7 +22,7 @@ describe('Model', () => {
     it('witout a uri', (done) => {
       try {
         let model = new Model({
-          host: 'http://localhost:8080'
+          host: HOST
         });
       } catch {
         done();
@@ -32,7 +34,7 @@ describe('Model', () => {
     it('without a type', (done) => {
       try {
         let model = new Model({
-          host: 'http://localhost:8080',
+          host: HOST,
           uri: 'v1'
         });
       } catch {
@@ -47,18 +49,18 @@ describe('Model', () => {
 
     it('with a host, uri and type', () => {
       let model = new Model({
-        host: 'http://localhost:8080',
+        host: HOST,
         uri: 'v1',
         type: 'test'
       });
-      expect(model._host).to.equal('http://localhost:8080');
+      expect(model._host).to.equal(HOST);
       expect(model._uri).to.equal('v1');
       expect(model._type).to.equal('test');
     });
 
     it('with attributes', () => {
       let model = new Model({
-        host: 'http://localhost:8080',
+        host: HOST,
         uri: 'v1',
         type: 'test',
         attributes: {
@@ -70,7 +72,7 @@ describe('Model', () => {
 
     it('with an id', () => {
       let model = new Model({
-        host: 'http://localhost:8080',
+        host: HOST,
         uri: 'v1',
         type: 'test',
         id: 'test'
@@ -82,7 +84,7 @@ describe('Model', () => {
 
   it('can set it\'s id', () => {
     let model = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'test'
     });
@@ -92,7 +94,7 @@ describe('Model', () => {
 
   it('can get it\'s id', () => {
     let model = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'test'
     });
@@ -102,17 +104,17 @@ describe('Model', () => {
 
   it('can construct it\'s uri', () => {
     let model = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'test',
       id: 'test'
     });
-    expect(model.uri).to.equal('http://localhost:8080/v1/test/test');
+    expect(model.uri).to.equal('http://localhost:8001/v1/test/test');
   });
 
   it('can save new data', async function() {
     let user = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -126,7 +128,7 @@ describe('Model', () => {
 
   it('can save existing data', async function() {
     let user = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -143,7 +145,7 @@ describe('Model', () => {
 
   it('can load data', async function() {
     let user_alpha = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       attributes: {
@@ -154,7 +156,7 @@ describe('Model', () => {
     });
     await user_alpha.save();
     let user_beta = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       id: user_alpha.id
@@ -167,7 +169,7 @@ describe('Model', () => {
 
   it('can load data with specified fields', async function() {
     let user_alpha = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       attributes: {
@@ -178,7 +180,7 @@ describe('Model', () => {
     });
     await user_alpha.save();
     let user_beta = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       id: user_alpha.id
@@ -192,7 +194,7 @@ describe('Model', () => {
 
   it('can delete data', async function() {
     let user = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
     });

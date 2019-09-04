@@ -1,8 +1,10 @@
 import { jsonapi } from '../lib/request.js';
 
+import { HOST } from "./settings.js";
+
 let expect = chai.expect;
 
-let url = 'http://localhost:8080/v1/users';
+let url = `${HOST}/v1/users`;
 
 describe('JSON API Request', () => {
 

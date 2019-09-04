@@ -1,5 +1,7 @@
 import WebToken from '../lib/webtoken.js';
 
+import { HOST } from "./settings.js";
+
 let expect = chai.expect;
 
 describe('WebToken', () => {
@@ -26,7 +28,7 @@ describe('WebToken', () => {
   });
 
   it('can authenticate', async function() {
-    let url = 'http://localhost:8080/v1/authentication';
+    let url = `${HOST}/v1/authentication`;
     let data = {
       data: {
         attributes: {
@@ -44,7 +46,7 @@ describe('WebToken', () => {
   });
 
   it('can refresh', async function() {
-    let url = 'http://localhost:8080/v1/authentication';
+    let url = `${HOST}/v1/authentication`;
     let token = WebToken.token;
     await WebToken.refresh(url);
     expect(WebToken.token).not.to.be.null;
@@ -57,7 +59,7 @@ describe('WebToken', () => {
   });
 
   it('can authenticate for the rest of the tests', async function() {
-    let url = 'http://localhost:8080/v1/authentication';
+    let url = `${HOST}/v1/authentication`;
     let data = {
       data: {
         attributes: {

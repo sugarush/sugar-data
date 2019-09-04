@@ -2,6 +2,8 @@ import WebToken from '../lib/webtoken.js';
 import { Collection } from '../lib/collection.js';
 import { Model } from '../lib/model.js';
 
+import { HOST } from "./settings.js";
+
 let expect = chai.expect;
 
 describe('Collection', () => {
@@ -21,7 +23,7 @@ describe('Collection', () => {
     it('witout a uri', (done) => {
       try {
         let collection = new Collection({
-          host: 'http://localhost:8080'
+          host: HOST
         });
       } catch {
         done();
@@ -33,7 +35,7 @@ describe('Collection', () => {
     it('without a type', (done) => {
       try {
         let collection = new Collection({
-          host: 'http://localhost:8080',
+          host: HOST,
           uri: 'v1'
         });
       } catch {
@@ -49,11 +51,11 @@ describe('Collection', () => {
 
     it('with a host, uri and type', () => {
       let collection = new Collection({
-        host: 'http://localhost:8080',
+        host: HOST,
         uri: 'v1',
         type: 'test'
       });
-      expect(collection._host).to.equal('http://localhost:8080');
+      expect(collection._host).to.equal(HOST);
       expect(collection._uri).to.equal('v1');
       expect(collection._type).to.equal('test');
     });
@@ -62,16 +64,16 @@ describe('Collection', () => {
 
   it('can construct it\'s uri', () => {
     let collection = new Collection({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'test'
     });
-    expect(collection.uri).to.equal('http://localhost:8080/v1/test');
+    expect(collection.uri).to.equal('http://localhost:8001/v1/test');
   });
 
   it('can find all data', async function() {
     let collection = new Collection({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -81,7 +83,7 @@ describe('Collection', () => {
 
   it('can query data', async function() {
     let collection = new Collection({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -91,7 +93,7 @@ describe('Collection', () => {
 
   it('can find data with specified fields', async function() {
     let collection = new Collection({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -105,7 +107,7 @@ describe('Collection', () => {
 
   it('can sort data', async function() {
     let gamma = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       attributes: {
@@ -118,7 +120,7 @@ describe('Collection', () => {
     await gamma.save();
 
     let delta = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       attributes: {
@@ -131,7 +133,7 @@ describe('Collection', () => {
     await delta.save();
 
     let collection = new Collection({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -148,7 +150,7 @@ describe('Collection', () => {
 
   it('can paginate data', async function() {
     let alpha = new Model({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users',
       attributes: {
@@ -161,7 +163,7 @@ describe('Collection', () => {
     await alpha.save();
 
     let collection = new Collection({
-      host: 'http://localhost:8080',
+      host: HOST,
       uri: 'v1',
       type: 'users'
     });
@@ -181,6 +183,37 @@ describe('Collection', () => {
     expect(collection.models[0].attributes.username).to.equal('alpha');
 
     expect(collection.total).to.equal(2);
+
+    await alpha.delete();
+  });
+
+  it('can clear it\'s data', async function() {
+    let alpha = new Model({
+      host: HOST,
+      uri: 'v1',
+      type: 'users',
+      attributes: {
+        username: 'alpha',
+        password: 'alpha',
+        groups: [ 'alpha' ]
+      }
+    });
+
+    await alpha.save();
+
+    let collection = new Collection({
+      host: HOST,
+      uri: 'v1',
+      type: 'users'
+    });
+
+    await collection.find();
+
+    expect(collection.models.length).not.to.equal(0);
+
+    collection.clear()
+
+    expect(collection.models.length).to.equal(0);
 
     await alpha.delete();
   });
