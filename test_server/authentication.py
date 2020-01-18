@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from sugar_api import WebToken
+from fire_api import WebToken
 
 from models.user import User
 
@@ -41,7 +41,7 @@ class Authentication(WebToken):
         }
 
     @classmethod
-    async def refresh(cls, token):
+    async def refresh(cls, attributes, token):
         token_data = token.get('data')
         token_id = token_data.get('id')
         token_scope = token_data.get('scope', { })
