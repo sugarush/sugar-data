@@ -88,7 +88,7 @@ describe('Model', () => {
 
   describe('can in realtime...', () => {
 
-    it('can subscribe to deletes', async () => {
+    it('subscribe to deletes', async () => {
       let user_alpha = new Model({
         host: HOST,
         uri: 'v1',
@@ -115,7 +115,7 @@ describe('Model', () => {
       expect(user_alpha.id).to.be.undefined;
     });
 
-    it('can subscribe to updates', async () => {
+    it('subscribe to updates', async () => {
       let user_alpha = new Model({
         host: HOST,
         uri: 'v1',
