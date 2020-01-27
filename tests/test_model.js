@@ -5,6 +5,10 @@ import { HOST } from "./settings.js";
 
 let expect = chai.expect;
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('Model', () => {
 
   describe('cannot be constructed...', () => {
@@ -80,6 +84,64 @@ describe('Model', () => {
       expect(model.id).to.deep.equal('test');
     });
 
+  });
+
+  describe('can in realtime...', () => {
+
+    it('can subscribe to deletes', async () => {
+      let user_alpha = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        realtime: true,
+        attributes: {
+          username: 'test',
+          password: 'test',
+          groups: [ 'test' ]
+        }
+      });
+      await user_alpha.save();
+      user_alpha.subscribe();
+      await sleep(500);
+      let user_beta = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        id: user_alpha.id
+      });
+      await user_beta.delete();
+      await sleep(500);
+      console.log(user_alpha.id);
+      expect(user_alpha.id).to.be.undefined;
+    });
+
+    it('can subscribe to updates', async () => {
+      let user_alpha = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        realtime: true,
+        attributes: {
+          username: 'test',
+          password: 'test',
+          groups: [ 'test' ]
+        }
+      });
+      await user_alpha.save();
+      user_alpha.subscribe();
+      let user_beta = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        id: user_alpha.id
+      });
+      await user_beta.load();
+      user_beta.attributes.username = 'testing';
+      await user_beta.save();
+      await sleep(500);
+      expect(user_alpha.attributes.username).to.equal('testing');
+      await user_beta.delete();
+    });
   });
 
   it('can set it\'s id', () => {
