@@ -6,6 +6,10 @@ import { HOST } from "./settings.js";
 
 let expect = chai.expect;
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('Collection', () => {
 
   describe('cannot be constructed...', () => {

@@ -102,7 +102,6 @@ describe('Model', () => {
       });
       await user_alpha.save();
       user_alpha.subscribe();
-      await sleep(500);
       let user_beta = new Model({
         host: HOST,
         uri: 'v1',
@@ -110,8 +109,7 @@ describe('Model', () => {
         id: user_alpha.id
       });
       await user_beta.delete();
-      await sleep(500);
-      console.log(user_alpha.id);
+      await sleep(50);
       expect(user_alpha.id).to.be.undefined;
     });
 
@@ -138,7 +136,7 @@ describe('Model', () => {
       await user_beta.load();
       user_beta.attributes.username = 'testing';
       await user_beta.save();
-      await sleep(500);
+      await sleep(50);
       expect(user_alpha.attributes.username).to.equal('testing');
       await user_beta.delete();
     });
@@ -265,7 +263,7 @@ describe('Model', () => {
     user.attributes.groups = [ 'test' ];
     await user.save();
     await user.delete();
-    expect(user.id).to.be.null;
+    expect(user.id).to.be.undefined;
   });
 
 });
