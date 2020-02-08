@@ -1,5 +1,5 @@
-from fire_odm import MongoDBModel, Field
-from fire_api import JSONAPIMixin
+from sugar_odm import MongoDBModel, Field
+from sugar_api import JSONAPIMixin
 
 
 class User(MongoDBModel, JSONAPIMixin):

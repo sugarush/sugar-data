@@ -1,7 +1,7 @@
 from sanic import Sanic
-from fire_api import CORS
-from fire_odm import MongoDB
-from fire_api import Redis
+from sugar_api import CORS
+from sugar_odm import MongoDB
+from sugar_api import Redis
 
 
 CORS.set_origins('*')

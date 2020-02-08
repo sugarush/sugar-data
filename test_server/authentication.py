@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from fire_api import WebToken
+from sugar_api import WebToken
 
 from models.user import User
 

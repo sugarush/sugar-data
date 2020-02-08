@@ -1,4 +1,4 @@
-from fire_odm import MongoDB
+from sugar_odm import MongoDB
 
 from server import server
 
