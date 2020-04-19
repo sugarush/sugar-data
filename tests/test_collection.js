@@ -51,7 +51,7 @@ describe('Collection', () => {
 
   });
 
-  describe('can be costructed...', () => {
+  describe('can be constructed...', () => {
 
     it('with a host, uri and type', () => {
       let collection = new Collection({
@@ -64,6 +64,45 @@ describe('Collection', () => {
       expect(collection._type).to.equal('test');
     });
 
+  });
+
+  describe('can in pubsub...', () => {
+
+    it('receive a client-id', async () => {
+      let collection = new Collection({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        pubsub: true
+      });
+      await sleep(50);
+      expect(collection.clientId).not.to.be.null;
+    });
+
+    it('authenticate', async () => {
+      let collection = new Collection({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        pubsub: true
+      });
+      await sleep(50);
+      expect(collection.authenticated).to.be.true;
+    });
+
+    it('deauthenticate', async () => {
+      let collection = new Collection({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        pubsub: true
+      });
+      await sleep(50);
+      expect(collection.authenticated).to.be.true;
+      collection.deauthenticate();
+      await sleep(50);
+      expect(collection.authenticated).to.be.false;
+    });
   });
 
   it('can construct it\'s uri', () => {
