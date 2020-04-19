@@ -88,6 +88,57 @@ describe('Model', () => {
 
   describe('can in pubsub...', () => {
 
+    it('receive a client-id', async () => {
+      let user = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        pubsub: true,
+        attributes: {
+          username: 'test',
+          password: 'test',
+          groups: [ 'test' ]
+        }
+      });
+      await sleep(50)
+      expect(user.uuid).not.to.be.null;
+    });
+
+    it('authenticate', async () => {
+      let user = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        pubsub: true,
+        attributes: {
+          username: 'test',
+          password: 'test',
+          groups: [ 'test' ]
+        }
+      });
+      await sleep(50)
+      expect(user.authenticated).to.be.true;
+    });
+
+    it('deauthenticate', async () => {
+      let user = new Model({
+        host: HOST,
+        uri: 'v1',
+        type: 'users',
+        pubsub: true,
+        attributes: {
+          username: 'test',
+          password: 'test',
+          groups: [ 'test' ]
+        }
+      });
+      await sleep(50)
+      expect(user.authenticated).to.be.true;
+      user.deauthenticate()
+      await sleep(50)
+      expect(user.authenticated).to.be.false;
+    });
+
     it('subscribe to deletes', async () => {
       let user_alpha = new Model({
         host: HOST,
