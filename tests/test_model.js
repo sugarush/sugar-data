@@ -86,14 +86,14 @@ describe('Model', () => {
 
   });
 
-  describe('can in realtime...', () => {
+  describe('can in pubsub...', () => {
 
     it('subscribe to deletes', async () => {
       let user_alpha = new Model({
         host: HOST,
         uri: 'v1',
         type: 'users',
-        realtime: true,
+        pubsub: true,
         attributes: {
           username: 'test',
           password: 'test',
@@ -118,7 +118,7 @@ describe('Model', () => {
         host: HOST,
         uri: 'v1',
         type: 'users',
-        realtime: true,
+        pubsub: true,
         attributes: {
           username: 'test',
           password: 'test',
