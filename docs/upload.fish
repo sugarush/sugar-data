@@ -2,7 +2,7 @@
 
 rm -rf html
 
-jsdoc ../lib ./index.md --recurse --destination ./html --configure ./jsdoc.json
+fish ./build.fish
 
 cd html
 

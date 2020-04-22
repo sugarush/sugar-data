@@ -1,6 +1,3 @@
 {
-    "plugins": ["plugins/markdown"],
-    "opts": {
-      "template": "../node_modules/postman-jsdoc-theme"
-    }
+    "plugins": ["plugins/markdown"]
 }
