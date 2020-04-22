@@ -1,4 +1,26 @@
+# Authentication
+
+To authenticate:
+
+```javascript
+import WebToken from 'vendor/sugar-data/lib/webtoken.js';
+
+await WebToken.authenticate('https://api.server.com/authentication', {
+  data: {
+    attributes: {
+      username: 'username',
+      password: 'password'
+    }
+  }
+});
+```
+
+After calling `authenticate`, any request to a JSONAPI endpoint using the
+`Model` or `Collection` classes, will be authenticated.
+
 # Model
+
+## Loading
 
 ```javascript
 import { Model } from 'vendor/sugar-data/lib/model.js';
@@ -11,6 +33,23 @@ let user = new Model({
 });
 
 await user.load();
+```
+
+## Saving
+
+```javascript
+import { Model } from 'vendor/sugar-data/lib/model.js';
+
+let user = new Model({
+  host: 'https://api.server.com',
+  uri: 'v1',
+  type: 'users',
+  id: 'some-id'
+});
+
+user.attributes.some_field = 'value'
+
+await user.save();
 ```
 
 # Collection
@@ -33,7 +72,7 @@ for(let user of users.models) {
 }
 ```
 
-## Find Subset
+## Query
 
 ```javascript
 import { Collection } from 'vendor/sugar-data/lib/collection.js';
@@ -51,6 +90,23 @@ for(let user of users.models) {
 }
 ```
 
+## Paging
+
+```javascript
+import { Collection } from 'vendor/sugar-data/lib/collection.js';
+
+let users = new Collection({
+  host: 'https://api.server.com',
+  uri: 'v1',
+  type: 'users'
+});
+
+await users.find({ page: { limit: 10, offset: 10 } });
+
+for(let user of users.models) {
+  console.log(user.attributes);
+}
+```
 # Realtime
 
 ## Model
