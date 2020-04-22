@@ -53,6 +53,8 @@ for(let user of users.models) {
 
 # Realtime
 
+## Model
+
 ```javascript
 import { Model } from 'vendor/sugar-data/lib/model.js';
 
@@ -84,4 +86,40 @@ await alpha.save();
 await sleep(500); // give the server and client more than enough time.
 
 expect(beta.attributes.some_field).to.equal('value');
+```
+
+## Collection
+
+```javascript
+import { Model } from 'vendor/sugar-data/lib/model.js';
+import { Collection } from 'vendor/sugar-data/lib/collection.js';
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let model = new Model({
+  host: 'https://api.server.com',
+  uri: 'v1',
+  type: 'users',
+  id: 'unique-id'
+});
+
+let collection = new Collection({
+  host: 'https://api.server.com',
+  uri: 'v1',
+  type: 'users',
+  pubsub: true
+});
+
+await collection.find();
+
+model.attributes.some_field = 'value';
+
+await model.save();
+
+await sleep(500); // give the server and client more than enough time.
+
+expect(collection.index[model.id].attributes.some_field).to.equal('value');
+
 ```
