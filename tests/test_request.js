@@ -10,7 +10,7 @@ describe('JSON API Request', () => {
 
   it('can send a request', async function() {
     let json = await jsonapi(url);
-    expect(json.meta.total).to.equal(1);
+    expect(json.meta.offset).to.equal(0);
   });
 
   it('can specify query parameters', async function() {

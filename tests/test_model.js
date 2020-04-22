@@ -101,7 +101,7 @@ describe('Model', () => {
         }
       });
       await sleep(50)
-      expect(user.clientId).not.to.be.null;
+      expect(user.client_id).not.to.be.null;
     });
 
     it('authenticate', async () => {

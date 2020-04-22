@@ -76,7 +76,7 @@ describe('Collection', () => {
         pubsub: true
       });
       await sleep(50);
-      expect(collection.clientId).not.to.be.null;
+      expect(collection.client_id).not.to.be.null;
     });
 
     it('authenticate', async () => {

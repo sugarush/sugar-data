@@ -1,11 +1,26 @@
-# Authentication
+# Requests
 
-To authenticate:
+```javascript
+import { jsonapi } from 'vendor/sugar-data/lib/request.js';
+
+let json = await jsonapi('https://api.server.com/v1/endpoint', {
+  method: 'POST',
+  body: {
+    data: {
+      attributes: {
+        some: 'payload'
+      }
+    }
+  }
+});
+```
+
+# Authentication
 
 ```javascript
 import WebToken from 'vendor/sugar-data/lib/webtoken.js';
 
-await WebToken.authenticate('https://api.server.com/authentication', {
+await WebToken.authenticate('https://api.server.com/v1/authentication', {
   data: {
     attributes: {
       username: 'username',
@@ -14,9 +29,6 @@ await WebToken.authenticate('https://api.server.com/authentication', {
   }
 });
 ```
-
-After calling `authenticate`, any request to a JSONAPI endpoint using the
-`Model` or `Collection` classes or the `jsonapi` function, will be authenticated.
 
 # Model
 
