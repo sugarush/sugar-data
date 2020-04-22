@@ -16,7 +16,7 @@ await WebToken.authenticate('https://api.server.com/authentication', {
 ```
 
 After calling `authenticate`, any request to a JSONAPI endpoint using the
-`Model` or `Collection` classes, will be authenticated.
+`Model` or `Collection` classes or the `jsonapi` function, will be authenticated.
 
 # Model
 
@@ -158,7 +158,7 @@ let model = new Model({
   host: 'https://api.server.com',
   uri: 'v1',
   type: 'users',
-  id: 'unique-id'
+  id: 'some-id'
 });
 
 let collection = new Collection({
@@ -167,6 +167,8 @@ let collection = new Collection({
   type: 'users',
   pubsub: true
 });
+
+await model.load();
 
 await collection.find();
 
