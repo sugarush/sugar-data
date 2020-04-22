@@ -139,7 +139,7 @@ alpha.attributes.some_field = 'value';
 
 await alpha.save();
 
-await sleep(500); // give the server and client more than enough time.
+await sleep(100); // give the server and client more than enough time.
 
 expect(beta.attributes.some_field).to.equal('value');
 ```
@@ -176,7 +176,7 @@ model.attributes.some_field = 'value';
 
 await model.save();
 
-await sleep(500); // give the server and client more than enough time.
+await sleep(100); // give the server and client more than enough time.
 
 expect(collection.index[model.id].attributes.some_field).to.equal('value');
 
