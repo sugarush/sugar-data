@@ -147,11 +147,13 @@ let beta = new Model({
 
 await beta.load();
 
+await sleep(100); // give the client more than enough time to subscribe.
+
 alpha.attributes.some_field = 'value';
 
 await alpha.save();
 
-await sleep(100); // give the server and client more than enough time.
+await sleep(100); // give the client more than enough time to subscribe.
 
 expect(beta.attributes.some_field).to.equal('value');
 ```
@@ -180,15 +182,15 @@ let collection = new Collection({
   pubsub: true
 });
 
-await model.load();
-
 await collection.find();
+
+await sleep(100); // give the client more than enough time to subscribe.
 
 model.attributes.some_field = 'value';
 
 await model.save();
 
-await sleep(100); // give the server and client more than enough time.
+await sleep(100); // give the client more than enough time to subscribe.
 
 expect(collection.index[model.id].attributes.some_field).to.equal('value');
 
