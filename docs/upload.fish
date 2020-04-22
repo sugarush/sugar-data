@@ -1,3 +1,3 @@
 #!/usr/bin/env fish
 
-jsdoc --recurse ../lib --destination ./html --configure ./jsdoc.json
+jsdoc ../lib ./index.md --recurse --destination ./html --configure ./jsdoc.json
