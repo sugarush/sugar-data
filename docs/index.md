@@ -15,6 +15,8 @@ await user.load();
 
 # Collection
 
+## Find All
+
 ```javascript
 import { Collection } from 'vendor/sugar-data/lib/collection.js';
 
@@ -25,6 +27,24 @@ let users = new Collection({
 });
 
 await users.find();
+
+for(let user of users.models) {
+  console.log(user.attributes);
+}
+```
+
+## Find Subset
+
+```javascript
+import { Collection } from 'vendor/sugar-data/lib/collection.js';
+
+let users = new Collection({
+  host: 'https://api.server.com',
+  uri: 'v1',
+  type: 'users'
+});
+
+await users.find({ query: { created: { $gte: 'Date(2020-04-20)' } } });
 
 for(let user of users.models) {
   console.log(user.attributes);
