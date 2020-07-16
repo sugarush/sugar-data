@@ -15,7 +15,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "gulp": "^4.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mocha": "^5.2.0",
     "postman-jsdoc-theme": "0.0.3"
   }
